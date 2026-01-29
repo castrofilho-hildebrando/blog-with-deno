@@ -1,16 +1,41 @@
-# Fresh project
+# Blog About Architecture
 
-Your new Fresh project is ready to go. You can follow the Fresh "Getting
-Started" guide here: https://fresh.deno.dev/docs/getting-started
+Este projeto é um blog técnico construído com **Deno + Fresh**
+utilizando **Clean Architecture** de forma rigorosa e prática.
 
-### Usage
+## Objetivo
 
-Make sure to install Deno: https://deno.land/manual/getting_started/installation
+Demonstrar como aplicar:
+- Clean Architecture
+- TypeScript forte
+- Casos de uso testáveis
+- Framework como detalhe
 
-Then start the project:
+## Estrutura
 
-```
-deno task start
-```
+src/
+├── domain # Entidades puras
+├── application # Casos de uso e contratos
+├── infrastructure # Banco, e-mail, detalhes técnicos
+└── interfaces # Controllers, i18n, adaptação HTTP
 
-This will watch the project directory and restart as necessary.
+
+O diretório `routes/` pertence exclusivamente ao Fresh
+e atua apenas como adaptador.
+
+## Regras Arquiteturais
+
+- Use cases não conhecem framework
+- Domínio não conhece idioma
+- Infra depende de portas
+- Erros são semânticos, não textuais
+
+## Testes
+
+Os testes validam comportamento de casos de uso,
+sem HTTP, sem banco e sem mocks mágicos.
+
+## Motivação
+
+Este projeto existe para estudo e escrita
+sobre arquitetura de software na prática.
