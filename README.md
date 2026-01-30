@@ -1,172 +1,175 @@
-# Blog About Architecture
+# BlogAboutArchitecture
 
-Um blog técnico construído com **Deno + Fresh** usando **Clean Architecture** de forma explícita, pragmática e testável.
+Blog minimalista construído com **Deno**, **Deno KV** e **HTML/CSS/JS puro**, focado em simplicidade, clareza arquitetural e baixo custo operacional.
 
-Este projeto não é um “exemplo de framework”.  
-Ele existe para **estudar e demonstrar arquitetura de software na prática**.
-
----
-
-## Objetivo
-
-- Aplicar **Clean Architecture** em um projeto web real
-- Manter **frameworks como detalhe**
-- Usar **TypeScript estrito**
-- Ter **casos de uso testáveis**, sem HTTP, banco ou mocks mágicos
-- Evitar overengineering e dependências desnecessárias
+O projeto utiliza:
+- API própria em Deno
+- Persistência com Deno KV
+- Front-end estático sem framework
+- Publicação de posts via Markdown
+- Preview local com auto-reload
+- Deploy direto no Deno Deploy
 
 ---
 
-## Stack
+## Funcionalidades
 
-- **Runtime:** Deno
-- **Framework web:** Fresh (SSR)
-- **Linguagem:** TypeScript
-- **Banco:** SQLite
-- **Arquitetura:** Clean Architecture
-- **Editor:** Zed (com limitações conhecidas de JSX)
-
-Sem Tailwind.  
-Sem React no cliente.  
-Sem `node_modules`.
-
----
-
-## Estrutura do Projeto
-
-routes/ # Adaptadores Fresh (HTTP / SSR)
-static/ # CSS e assets estáticos
-
-src/
-├── domain/ # Entidades puras
-├── application/ # Casos de uso e contratos
-│ ├── usecases/
-│ ├── ports/
-│ └── errors/
-├── infrastructure/ # Banco, e-mail, detalhes técnicos
-└── interfaces/ # Controllers HTTP, i18n, adapters
-
-
-### Regra fundamental
-
-> **Dependências sempre apontam para dentro.**
-
-Frameworks conhecem a aplicação.  
-A aplicação **não conhece frameworks**.
+- Listagem de posts com paginação
+- Post individual
+- Sanitização básica de HTML
+- Persistência com Deno KV
+- Front e API no mesmo domínio (sem CORS)
+- Preview local de Markdown
+- Auto-reload ao salvar (`watch`)
+- Slug automático
+- Suporte a `draft: true`
+- Pronto para Deno Deploy
 
 ---
 
-## Camadas (Clean Architecture)
+## Arquitetura
 
-### Domain
-- Entidades puras (`Article`, `Subscriber`)
-- Nenhuma dependência externa
-- Nenhum framework
-- Nenhum detalhe técnico
+.
+├── main.ts # Servidor HTTP (API + front)
+├── kv.ts # Acesso ao Deno KV
+├── deps.ts # Dependências centralizadas
+├── public/ # Front-end estático
+│ ├── index.html
+│ ├── post.html
+│ ├── css/
+│ └── js/
+├── posts/ # Posts em Markdown
+├── scripts/
+│ ├── publish.ts # Publicação Markdown → KV
+│ └── preview.ts # Preview local com auto-reload
+└── README.md
 
-### Application
-- Casos de uso (`CreateArticle`, `ListArticles`, `SubscribeUser`, etc.)
-- Portas (`ArticleRepository`, `EmailService`)
-- Erros semânticos (ex.: `MissingArticleDataError`)
-- Totalmente testável
-
-### Infrastructure
-- Implementações concretas (SQLite, SMTP)
-- Detalhes “sujos”
-- Substituíveis sem impacto no domínio
-
-### Interfaces
-- Controllers HTTP
-- Tradução de erros
-- i18n
-- Adaptação para o mundo externo
-
-### Routes (Fresh)
-- Apenas roteamento e SSR
-- Nenhuma regra de negócio
-- Chamam controllers ou use cases
 
 ---
 
-## Casos de Uso Implementados
+## Modelo de dados (KV)
 
-- Criar artigo
-- Listar artigos
-- Assinar o blog
-- Notificar assinantes
-- Todos com testes unitários puros
-
----
-
-## Testes
-
-Os testes:
-- Ficam próximos aos casos de uso (`tests/`)
-- Não usam HTTP
-- Não usam banco
-- Não usam mocks de framework
-- Testam **comportamento**, não implementação
-
-Exemplo:
-
+### Post individual
 ```ts
-SubscribeUser.test.ts
-NotifySubscribers.test.ts
-CreateArticle.test.ts
-```
+["post", id]
 
-## Internacionalização (i18n)
+{
+  "id": 1,
+  "slug": "meu-primeiro-post",
+  "title": "Meu primeiro post",
+  "summary": "Resumo curto",
+  "content": "<p>HTML do post</p>",
+  "createdAt": "2026-01-01"
+}
 
-Casos de uso não retornam mensagens
-Erros são semânticos, não textuais
-Tradução acontece na camada de interface
+Índice para listagem
 
-Exemplo de código de erro:
-TITLE_AND_CONTENT_ARE_MANDATORY
+["posts_by_date", createdAt, id]
 
-A interface decide como apresentar isso ao usuário.
+Formato do post (Markdown)
 
-Sobre JSX, Fresh e o Editor
+---
+id: 1
+title: Meu primeiro post
+summary: Um resumo curto
+date: 2026-01-01
+draft: true
+---
 
-Este projeto usa JSX moderno com Fresh + Preact.
+# Meu primeiro post
 
-⚠️ Nota importante sobre o editor (Zed):
+Conteúdo em **Markdown**.
 
-O runtime, build e deno check funcionam corretamente
-O Zed pode apresentar falsos positivos em arquivos .tsx
+Regras
 
-Em alguns casos usamos:
+    draft: true → não publica
 
-// @ts-nocheck
+    draft: false ou ausente → publica
 
-Isso não afeta:
+    slug é gerado automaticamente a partir do título
 
-runtime
-build
-testes
-arquitetura
+👀 Preview local (Markdown)
 
-É apenas uma limitação atual do editor.
+Preview local com:
 
-Como rodar o projeto
-deno task start
+    mesmo parser de produção
+
+    mesmo CSS do blog
+
+    auto-reload ao salvar
+
+deno run --allow-read scripts/preview.ts posts/2026-01-01-meu-post.md
 
 Acesse:
 
-http://localhost:8000
+http://localhost:8080
 
-Motivação
+🚀 Publicar um post
 
-Este projeto foi criado para:
+Publica o Markdown no Deno KV (ignora drafts):
 
-aprendizado profundo
-escrita de artigos técnicos
-estudo de trade-offs reais
-evitar exemplos artificiais
+deno run \
+    --allow-read \
+    --allow-write \
+    --unstable-kv \
+    scripts/publish.ts posts/2026-01-01-meu-post.md
 
-Se algo aqui parece “mais complexo do que o normal”,
-provavelmente é intencional.
+API
+Listar posts
+
+GET /posts?page=1
+
+Resposta:
+
+{
+  "data": [...],
+  "page": 1,
+  "hasNext": true
+}
+
+Post individual
+
+GET /posts/:id
+
+Deploy no Deno Deploy
+
+    Suba o projeto para um repositório GitHub
+
+    Acesse https://dash.deno.com
+
+    Crie um novo projeto
+
+    Configure o entry point:
+
+    main.ts
+
+    Deploy
+
+O Deno KV funciona automaticamente em produção.
+Objetivos do projeto
+
+    Demonstrar uma arquitetura simples e limpa
+
+    Evitar frameworks desnecessários
+
+    Manter custo zero ou mínimo
+
+    Ser fácil de entender, manter e evoluir
+
+Próximos passos (opcionais)
+
+    Rota por slug (/posts/:slug)
+
+    RSS
+
+    Sitemap
+
+    Cache HTTP mais agressivo
+
+    SEO básico
+
+    Busca simples
 
 Licença
 
-Uso educacional e experimental.
+MIT
