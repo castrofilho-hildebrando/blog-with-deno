@@ -29,7 +29,6 @@ O projeto utiliza:
 
 ## Arquitetura
 
-.
 ├── main.ts # Servidor HTTP (API + front)
 ├── kv.ts # Acesso ao Deno KV
 ├── deps.ts # Dependências centralizadas
@@ -61,6 +60,7 @@ O projeto utiliza:
   "content": "<p>HTML do post</p>",
   "createdAt": "2026-01-01"
 }
+```
 
 Índice para listagem
 
@@ -88,7 +88,7 @@ Regras
 
     slug é gerado automaticamente a partir do título
 
-👀 Preview local (Markdown)
+Preview local (Markdown)
 
 Preview local com:
 
