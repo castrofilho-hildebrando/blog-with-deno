@@ -20,7 +20,7 @@ async function carregarPost() {
     }
 
     try {
-        const response = await fetch(`http://localhost:8000/posts/${postId}`, {
+        const response = await fetch(`/posts/${postId}`, {
             headers: {
                 "Accept": "application/json"
             }

@@ -38,7 +38,7 @@ async function carregarPosts() {
     mostrarLoading();
 
     try {
-        const response = await fetch(`http://localhost:8000/posts?page=${page}`, {
+        const response = await fetch(`/posts?page=${page}`, {
             headers: {
                 "Accept": "application/json"
             }
