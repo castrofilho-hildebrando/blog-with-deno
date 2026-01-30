@@ -65,8 +65,8 @@ serve(async (req) => {
     return serveDir(req, {
         fsRoot: "public",
         urlRoot: "",
-        headers: [
-            ["Cache-Control", "public, max-age=3600"]
-        ]
+        headers: {
+            "Cache-Control": "public, max-age=3600"
+        }
     });
 });
