@@ -1,19 +1,32 @@
 import { Article } from "../../../domain/Article.ts";
 import { ArticleRepository } from "../../ports/ArticleRepository.ts";
 
-export class FakeArticleRepository implements ArticleRepository {
+export class FakeArticleRepository
+    implements ArticleRepository {
 
-    public savedArticles: Article[] = [];
+    public articles: Article[] = [];
 
     async save(article: Article): Promise<void> {
-        this.savedArticles.push(article);
+        this.articles.push(article);
     }
 
-    async findBySlug(_slug: string): Promise<Article | null> {
-        return null;
+    async findById(id: string): Promise<Article | null> {
+        return (
+            this.articles.find(
+                (a) => a.id === id
+            ) ?? null
+        );
+    }
+
+    async findBySlug(slug: string): Promise<Article | null> {
+        return (
+            this.articles.find(
+                (a) => a.slug === slug
+            ) ?? null
+        );
     }
 
     async list(): Promise<Article[]> {
-        return this.savedArticles;
+        return this.articles;
     }
 }

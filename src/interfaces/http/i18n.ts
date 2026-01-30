@@ -6,11 +6,19 @@ export const messages: Record<
 > = {
     pt: {
         TITLE_AND_CONTENT_ARE_MANDATORY:
-            "Título e conteúdo são obrigatórios"
+            "Título e conteúdo são obrigatórios",
+        ARTICLE_NOT_FOUND:
+            "Artigo não encontrado",
+        ARTICLE_PUBLISHED_SUBJECT:
+            "Novo artigo publicado"
     },
     en: {
         TITLE_AND_CONTENT_ARE_MANDATORY:
-            "Title and content are required"
+            "Title and content are required",
+        ARTICLE_NOT_FOUND:
+            "Article not found",
+        ARTICLE_PUBLISHED_SUBJECT:
+            "New article published"
     }
 };
 

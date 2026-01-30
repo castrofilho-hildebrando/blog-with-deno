@@ -4,7 +4,10 @@
 
 import * as $_404 from "./routes/_404.tsx";
 import * as $_app from "./routes/_app.tsx";
+import * as $api_posts from "./routes/api/posts.ts";
+import * as $api_posts_id_ from "./routes/api/posts/[id].ts";
 import * as $articles from "./routes/articles.ts";
+import * as $articles_slug_ from "./routes/articles/[slug].tsx";
 import * as $index from "./routes/index.tsx";
 import * as $subscribe from "./routes/subscribe.ts";
 
@@ -14,7 +17,10 @@ const manifest = {
     routes: {
         "./routes/_404.tsx": $_404,
         "./routes/_app.tsx": $_app,
+        "./routes/api/posts.ts": $api_posts,
+        "./routes/api/posts/[id].ts": $api_posts_id_,
         "./routes/articles.ts": $articles,
+        "./routes/articles/[slug].tsx": $articles_slug_,
         "./routes/index.tsx": $index,
         "./routes/subscribe.ts": $subscribe,
     },

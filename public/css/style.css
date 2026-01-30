@@ -1,0 +1,94 @@
+:root {
+    --bg-color: #ffffff;
+    --text-color: #1a1a1a;
+    --muted-color: #555555;
+    --link-color: #005fcc;
+    --border-color: #e0e0e0;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    line-height: 1.7;
+    margin: 0;
+    padding: 2rem 1rem;
+}
+
+header {
+    max-width: 720px;
+    margin: 0 auto 2rem auto;
+}
+
+main {
+    max-width: 720px;
+    margin: 0 auto;
+}
+
+a {
+    color: var(--link-color);
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+article {
+    padding-bottom: 1.5rem;
+    margin-bottom: 2rem;
+    border-bottom: 1px solid var(--border-color);
+}
+
+h1 {
+    font-size: 2rem;
+    line-height: 1.3;
+    margin-bottom: 1rem;
+}
+
+h2 {
+    font-size: 1.4rem;
+    line-height: 1.4;
+    margin-bottom: 0.5rem;
+}
+
+p {
+    margin: 0.75rem 0;
+}
+
+#post-content p {
+    font-size: 1.05rem;
+}
+
+#post-content {
+    margin-top: 1.5rem;
+}
+
+header a {
+    display: inline-block;
+    margin-bottom: 0.5rem;
+    font-size: 0.9rem;
+    color: var(--muted-color);
+}
+
+#pagination {
+    max-width: 720px;
+    margin: 2rem auto 0 auto;
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.95rem;
+}
+
+#pagination a {
+    font-weight: 500;
+}
+
+@media (max-width: 600px) {
+    body {
+        padding: 1.5rem 1rem;
+    }
+}

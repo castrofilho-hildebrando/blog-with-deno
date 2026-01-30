@@ -1,20 +1,19 @@
 import { EmailService } from "../../ports/EmailService.ts";
 
-interface SentEmail {
-    to: string;
-    subject: string;
-    body: string;
-}
+export class FakeEmailService
+    implements EmailService {
 
-export class FakeEmailService implements EmailService {
-
-    public sentEmails: SentEmail[] = [];
+    public sent: {
+        to: string;
+        subject: string;
+        body: string;
+    }[] = [];
 
     async send(
         to: string,
         subject: string,
         body: string
     ): Promise<void> {
-        this.sentEmails.push({ to, subject, body });
+        this.sent.push({ to, subject, body });
     }
 }

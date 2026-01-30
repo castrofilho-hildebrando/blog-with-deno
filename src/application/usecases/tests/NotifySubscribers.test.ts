@@ -6,6 +6,7 @@ import { Article } from "../../../domain/Article.ts";
 import { Subscriber } from "../../../domain/Subscriber.ts";
 import { FakeSubscriberRepository } from "./FakeSubscriberRepository.ts";
 import { FakeEmailService } from "./FakeEmailService.ts";
+import { translate } from "../../../interfaces/http/i18n.ts";
 
 // @ts-ignore Deno global is not recognized by Zed yet
 Deno.test(
@@ -44,16 +45,19 @@ Deno.test(
             emailService
         );
 
-        await useCase.execute(article);
+        await useCase.execute(article, translate("ARTICLE_PUBLISHED_SUBJECT", "pt"));
 
-        assertEquals(emailService.sentEmails.length, 1);
+        assertEquals(emailService.sent.length, 1);
         assertEquals(
-            emailService.sentEmails[0].to,
+            emailService.sent[0].to,
             "active@email.com"
         );
         assertEquals(
-            emailService.sentEmails[0].subject,
-            "Novo artigo publicado"
+            emailService.sent[0].subject,
+            translate(
+                "ARTICLE_PUBLISHED_SUBJECT",
+                "pt"
+            )
         );
     }
 );

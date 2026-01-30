@@ -26,6 +26,52 @@ export class ArticleRepositorySqlite
         );
     }
 
+    async findById(id: string): Promise<Article | null> {
+        const db = getDb();
+
+        const result = [
+            ...db.query(
+                `
+                SELECT
+                    id, title, slug, content,
+                    published_at, updated_at
+                FROM articles
+                WHERE id = ?
+                `,
+                [id]
+            )
+        ][0];
+
+        if (!result) {
+            return null;
+        }
+
+        const [
+            articleId,
+            title,
+            slug,
+            content,
+            publishedAt,
+            updatedAt
+        ] = result as [
+            string,
+            string,
+            string,
+            string,
+            string,
+            string | null
+        ];
+
+        return new Article(
+            articleId,
+            title,
+            slug,
+            content,
+            new Date(publishedAt),
+            updatedAt ? new Date(updatedAt) : undefined
+        );
+    }
+
     async findBySlug(slug: string): Promise<Article | null> {
         const db = getDb();
 

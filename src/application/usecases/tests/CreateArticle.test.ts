@@ -55,10 +55,10 @@ Deno.test(
             content: "Conteúdo do artigo"
         });
 
-        assertEquals(repository.savedArticles.length, 1);
+        assertEquals(repository.articles.length, 1);
         assertEquals(article.title, "Clean Architecture com Deno");
         assertEquals(article.slug, "clean-architecture-com-deno");
         assertEquals(article.content, "Conteúdo do artigo");
-        assertEquals(article, repository.savedArticles[0]);
+        assertEquals(article, repository.articles[0]);
     }
 );

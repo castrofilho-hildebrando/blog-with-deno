@@ -8,14 +8,14 @@ export class NotifySubscribers {
         private readonly emailService: EmailService
     ) {}
 
-    async execute(article: Article): Promise<void> {
+    async execute(article: Article,  subject: string): Promise<void> {
         const subscribers =
             await this.subscriberRepository.listActive();
 
         for (const subscriber of subscribers) {
             await this.emailService.send(
                 subscriber.email,
-                "Novo artigo publicado",
+                subject,
                 article.title
             );
         }

@@ -2,7 +2,6 @@ import { Subscriber } from "../../../domain/Subscriber.ts";
 import { SubscriberRepository } from "../../ports/SubscriberRepository.ts";
 
 export class FakeSubscriberRepository
-
     implements SubscriberRepository {
 
     private subscribers: Subscriber[] = [];
@@ -16,9 +15,11 @@ export class FakeSubscriberRepository
     }
 
     async findByEmail(email: string): Promise<Subscriber | null> {
-        return this.subscribers.find(
-            (s) => s.email === email
-        ) ?? null;
+        return (
+            this.subscribers.find(
+                (s) => s.email === email
+            ) ?? null
+        );
     }
 
     async listActive(): Promise<Subscriber[]> {

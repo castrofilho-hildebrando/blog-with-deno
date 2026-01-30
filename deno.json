@@ -1,10 +1,6 @@
 {
     "lock": false,
-    "fmt": {
-        "options": {
-            "indentWidth": 4
-        }
-    },
+    "fmt": { "options": { "indentWidth": 4 } },
     "tasks": {
         "check": "deno fmt --check && deno lint && deno check **/*.ts && deno check **/*.tsx",
         "cli": "echo \"import '\\$fresh/src/dev/cli.ts'\" | deno run --unstable -A -",
@@ -14,11 +10,7 @@
         "preview": "deno run -A main.ts",
         "update": "deno run -A -r https://fresh.deno.dev/update ."
     },
-    "lint": {
-        "rules": {
-            "tags": ["fresh", "recommended"]
-        }
-    },
+    "lint": { "rules": { "tags": ["fresh", "recommended"] } },
     "exclude": ["**/_fresh/*"],
     "include": [
         "src/**/*.ts",
@@ -30,10 +22,8 @@
         "@std/": "https://deno.land/std/",
         "$std/": "https://deno.land/std@0.216.0/",
         "$fresh/": "https://deno.land/x/fresh@1.7.3/",
-
         "react/jsx-runtime": "https://esm.sh/preact@10.22.0/jsx-runtime",
         "react/jsx-dev-runtime": "https://esm.sh/preact@10.22.0/jsx-dev-runtime",
-
         "preact": "https://esm.sh/preact@10.22.0",
         "preact/": "https://esm.sh/preact@10.22.0/",
         "@preact/signals": "https://esm.sh/*@preact/signals@1.2.2",
@@ -43,6 +33,6 @@
         "jsx": "react-jsx",
         "jsxImportSource": "preact",
         "strict": true,
-        "lib": ["deno.window"]
+        "lib": ["dom", "dom.iterable", "esnext"]
     }
 }
