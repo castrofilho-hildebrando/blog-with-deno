@@ -104,7 +104,7 @@ Acesse:
 
 http://localhost:8080
 
-🚀 Publicar um post
+Publicar um post
 
 Publica o Markdown no Deno KV (ignora drafts):
 
